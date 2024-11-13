@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export const middleware = async (request) => {
     // __Secure-
-    const token = (await cookies(request)).get("next-auth.session-token");
+    const token = (await cookies(request)).get("__Secure-next-auth.session-token");
     const pathname = request.nextUrl.pathname;
     // console.log(pathname);
     if(pathname.includes("api")){
