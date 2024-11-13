@@ -21,7 +21,7 @@ const AboutUs = () => {
               alt="person"
               width={390}
               height={398}
-              style={{width: 'auto', height: 'auto'}}
+              // style={{width: 'auto', height: 'auto'}}
               className="rounded-lg border-8 border-white shadow-2xl absolute right-0 top-1/2 "
             />
           </div>

@@ -12,7 +12,7 @@ const Banner = () => {
             style={{
               backgroundImage: `linear-gradient(90deg, rgba(21, 21, 21, .7), rgba(21,21,21,0)), url(/assets/images/banner/${
                 index + 1
-              }.jpg)`,
+              }.jpg)`
               // backgroundImage: `linear-gradient(45deg, rgba(7, 25, 82, 0.7), rgba(0, 0, 0, 0.3)), url(/assets/images/banner/${index + 1}.jpg)`
             }}
             key={index}

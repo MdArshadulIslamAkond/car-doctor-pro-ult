@@ -9,7 +9,7 @@ const Update = ({ params }) => {
   const loadData = useCallback(async () => {
     const { id } = await params;
     const result = await fetch(
-      `${process.env.NEXTAUTH_UR}/my-bookings/api/booking/${id}`
+      `${process.env.NEXTAUTH_URL}/my-bookings/api/booking/${id}`
     );
     const data = await result.json();
     // console.log(data.response);
@@ -43,7 +43,7 @@ const Update = ({ params }) => {
     };
     try {
       const { id } = await params;
-      const updatedata = await fetch(  `${process.env.NEXTAUTH_UR}/my-bookings/api/booking/${id}`, {
+      const updatedata = await fetch(`${process.env.NEXTAUTH_URL}/my-bookings/api/booking/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

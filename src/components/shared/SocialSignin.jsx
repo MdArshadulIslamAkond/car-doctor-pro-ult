@@ -1,22 +1,34 @@
 "use client"
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
-const SocialSignin = ({path}) => {
+const SocialSignin = () => {
+  const searchParams = useSearchParams();
+  const [redirectPath, setRedirectPath] = useState("/");
+  const path = searchParams.get("redirect");
   const router = useRouter();
   const {status}= useSession();
-  // useEffect(() => {
-  //   if (status === "authenticated") {
-  //     router.push("/");
-  //   }
-  // }, [status, router]);
+  useEffect(() => {
+    if (path) {
+      setRedirectPath(path);
+    }
+  }, [path]);
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push(redirectPath);
+    }
+  }, [status, router, redirectPath]);
+
   const handleSocialSignin = async (provider) => {
     const result = await signIn(provider, {
-      redirect: true,
-      callbackUrl: path ? path : "/" 
+      redirect: false
+      // redirect: true,
+      // // callbackUrl: path,  
+      // callbackUrl: redirectPath 
     });
    
   };
@@ -31,7 +43,7 @@ const SocialSignin = ({path}) => {
           <FaFacebookF className="text-[#3B5998]" />
         </button>
         <button
-          onClick={() => handleSocialSignin("linkdinin")}
+          onClick={() => handleSocialSignin("linkdin")}
           className="btn btn-circle text-xl"
         >
           {" "}

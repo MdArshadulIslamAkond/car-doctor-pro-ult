@@ -1,23 +1,33 @@
 "use client";
 import Cover from "@/components/shared/Cover";
 import getServices from "@/lib/getService";
+// import getServices from "@/lib/getService";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 const Checkout = ({ params }) => {
+  // const router = useRouter();  // <-- Using useRouter here
+  // const { id } = router.query;  // <-- Extracting id from the query
   const { data: { user: { email, name } = {} } = {} } = useSession() || {};
   // console.log(email,name);
-  const [details, setDetails] = useState();
-  useEffect(() => {
-    const loadDetails = async () => {
-      const { id } = await params;
-      const details = await getServices(id);
-      // console.log(details);
-      setDetails(details.service);
-    };
-    loadDetails();
+  const [details, setDetails] = useState({});
+  const loadDetails = useCallback(async () => {
+    const { id } = await params;
+    console.log(id);
+    try{
+    const details = await getServices(id);
+    console.log(details);
+    setDetails(details.service);
+  }catch(error){
+    toast.error("Failed to load service details.");
+    console.error(error);
+  }
   }, [params]);
+  useEffect(() => {
+    loadDetails();
+  }, [loadDetails]);
   const { _id, title, img, description, price } = details || {};
   const handleBooking = async (e) => {
     e.preventDefault();
@@ -43,26 +53,28 @@ const Checkout = ({ params }) => {
     };
     // Your booking logic goes here, for example, send the data to your server or API
     // console.log(newBooking);
-   try{
-    const result = await fetch(`${process.env.NEXTAUTH_UR}/checkout/api/new-book`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newBooking),
-    });
-    const response = await result.json();
-    if (result.ok) {
-      toast.success(response?.message);
-      formLog.reset();
-    }else{
-      toast.error(response?.error);
+    try {
+      const result = await fetch(
+        `${process.env.NEXTAUTH_URL}/checkout/api/new-book`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newBooking),
+        }
+      );
+      const response = await result.json();
+      if (result.ok) {
+        toast.success(response?.message);
+        formLog.reset();
+      } else {
+        toast.error(response?.error);
+      }
+    } catch (error) {
+      // console.error(error);
+      toast.error("An error occurred while booking");
     }
-   }catch(error){
-    // console.error(error);
-    toast.error('An error occurred while booking');
- 
-   }
     // console.log(result);
   };
   return (

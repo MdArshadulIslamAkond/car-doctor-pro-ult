@@ -6,10 +6,11 @@ import { useCallback, useEffect, useState } from "react";
 const MyBookings = () => {
     const {data:{user:{email}={}} = {}} = useSession();
     const [bookings, setBookings] = useState([]);
+    const BASE_URL = process.env.NEXTAUTH_URL || "http://localhost:3000";
     // console.log(email);
     const dandleDelete = async(id)=>{
         // console.log(id);
-        const result = await fetch(`${process.env.NEXTAUTH_UR}/my-bookings/api/booking/${id}`, {method: "DELETE"});
+        const result = await fetch(`${BASE_URL}/my-bookings/api/booking/${id}`, {method: "DELETE"});
         const data = await result.json();
         // console.log(data);
         if(data.response.deletedCount >0){
@@ -21,7 +22,7 @@ const MyBookings = () => {
     }
     const loadData =useCallback( async()=>{
        try {
-        const result = await fetch(`${process.env.NEXTAUTH_UR}/my-bookings/api/${email}`);
+        const result = await fetch(`${BASE_URL}/my-bookings/api/${email}`);
         const data = await result.json();
         // console.log(data.myBooking);
         setBookings(data.myBooking);
@@ -29,7 +30,7 @@ const MyBookings = () => {
         setBookings([]);
        }
         
-    }, [email]);
+    }, [email, BASE_URL]);
     useEffect(()=>{
         loadData();
        

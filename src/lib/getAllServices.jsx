@@ -1,8 +1,9 @@
 
 
 const getAllServices = async () => {
+  const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
 try{
-  const services = await fetch(`${process.env.NEXTAUTH_UR}/services/api/get-all`);
+  const services = await fetch(`${baseUrl}/services/api/get-all`);
   if (!services.ok) {
     throw new Error(`There was an error fetching Services`);
   }
