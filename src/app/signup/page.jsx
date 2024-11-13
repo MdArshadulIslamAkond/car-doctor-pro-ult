@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SocialSignin from "@/components/shared/SocialSignin";
 import { Suspense } from "react";
-import Registration from "@/components/shared/registration";
+import Registration from "@/components/shared/Registration";
 
 const SignUp = () => {
   return (
