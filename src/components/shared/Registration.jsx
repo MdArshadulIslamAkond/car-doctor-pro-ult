@@ -25,7 +25,8 @@ const Registration = () => {
       password,
     };
     // console.log(newUser);
-    const result = await fetch(`${process.env.NEXTAUTH_URL}/signup/api`, {
+    const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+    const result = await fetch(`${baseUrl}/signup/api`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

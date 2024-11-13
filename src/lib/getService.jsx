@@ -1,5 +1,7 @@
 const getServices = async (id) => {
-  const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+  console.log(id);
+  const baseUrl = process.env.NEXTAUTH_URL ;
+  // || "http://localhost:3000"
   try {
     const services = await fetch(`${baseUrl}/services/api/${id}`);
     if (!services.ok) {
